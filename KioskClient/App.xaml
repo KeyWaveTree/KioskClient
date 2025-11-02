@@ -1,0 +1,32 @@
+﻿<Application x:Class="KioskClient.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:KioskClient"
+             xmlns:view ="clr-namespace:KioskClient.View"
+             xmlns:vm="clr-namespace:KioskClient.ViewModel"
+             xmlns:d ="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc ="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ignore ="http://www.galasoft.ch/ignore"
+             mc:Ignorable="d ignore"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- 
+            사용자가 정의한 xmlns(xml namespace)안에 있는 클래스를 지정 후. Locator 이름으로 생성한다.
+            객체는 -디자인 타임- 에서 Data Source 으로 명시한다.
+            그 후 Application.Resource에 보관한다.
+        -->
+        <vm:ViewModelLocator x:Key="Locator" d:IsDataSource ="True"/>
+
+        <!-- 
+           데이터를 저장할 탬플릿 태그로 데이터 타입을 test.cs를 참조하고 view 네임스페이스로 Test 객체를 연결해준다.
+           vm: Test 타입의 객체를 화면에 표시 요청을 받으면 <view: Test> ui 컨ㅌ,럴을 새로 만들어서 창에 띄어준다.
+        -->
+        <DataTemplate DataType="{x:Type vm:TestViewModel}">
+            <view:Test />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:PopupViewModel}">
+            <view:Popup />
+        </DataTemplate>
+    </Application.Resources>
+</Application>
