@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="KioskClient.View.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KioskClient.View"
+             xmlns:converters="clr-namespace:KioskClient.Converters"
+             xmlns:vm="clr-namespace:KioskClient.ViewModel"
+             mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1200"
+             d:DataContext="{d:DesignInstance Type=vm:MenuViewModel, IsDesignTimeCreatable=False}">
+
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="{Binding SelectedCategory.NameKo}" 
+                       Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                       Style="{StaticResource ViewTitleStyle}"/>
+            <Button Grid.Column="1"
+                    Command="{Binding GoHomeCommand}"
+                    Style="{StaticResource GlassButtonStyle}"
+                    Width="56" Height="56">
+                <TextBlock Text="✕" FontSize="24"
+                           Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"/>
+            </Button>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Products}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource ProductCardStyle}" Margin="12" Height="320">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Product.Image}"
+                                           FontSize="96" HorizontalAlignment="Center" Margin="0,0,0,16"/>
+
+                                <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Product.NameKo}"
+                                               Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                                               FontSize="24" FontWeight="Medium" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                    <TextBlock Text="{Binding Product.Name}"
+                                               Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextSecondaryBrush}"
+                                               FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                                               FontSize="18">
+                                        <Run Text="{Binding Product.Price, Converter={StaticResource CurrencyConverter}}"/>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <Grid Grid.Row="2">
+                                    <Button Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource GlassButtonStyle}"
+                                            Height="48"
+                                            Content="추가하기"
+                                            Visibility="{Binding IsInCart, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted}"/>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Center"
+                                                Visibility="{Binding IsInCart, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                                        <Button Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource QuantityButtonStyle}">
+                                            <TextBlock Text="−" FontSize="20"
+                                                       Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"/>
+                                        </Button>
+
+                                        <TextBlock Text="{Binding Quantity}" 
+                                                   Style="{StaticResource QuantityTextStyle}" Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"/>
+
+                                        <Button Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource QuantityButtonStyle}">
+                                            <TextBlock Text="+" FontSize="20"
+                                                       Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Margin="0,24,0,0"
+                Style="{StaticResource CartSummaryBorderStyle}" Background="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.GlassBrush}"
+                BorderBrush="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.GlassBorderBrush}"
+                Visibility="{Binding IsCartVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Width="48" Height="48" CornerRadius="12" Margin="0,0,16,0">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#4ADE80" Offset="0.0"/>
+                            <GradientStop Color="#10B981" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <TextBlock Text="🛒" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                               FontSize="18" FontWeight="Medium">
+                        <Run Text="{Binding TotalItems}"/>
+                        <Run Text="개 상품"/>
+                    </TextBlock>
+                    <TextBlock Text="Total Items"
+                               Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextSecondaryBrush}"
+                               FontSize="12"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,24,0">
+                    <TextBlock Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                               FontSize="24" FontWeight="Medium" TextAlignment="Right"
+                               Text="{Binding TotalPrice, Converter={StaticResource CurrencyConverter}}"/>
+                    <TextBlock Text="Total Price"
+                               Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextSecondaryBrush}"
+                               FontSize="12" TextAlignment="Right"/>
+                </StackPanel>
+
+                <Button Grid.Column="3" Style="{StaticResource PrimaryButtonStyle}">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#4ADE80" Offset="0.0"/>
+                            <GradientStop Color="#10B981" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    <TextBlock Text="주문하기" Foreground="White" FontSize="16" FontWeight="Medium"/>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

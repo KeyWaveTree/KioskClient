@@ -3,12 +3,150 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:KioskClient"
+        mc:Ignorable="d"
+        Title="Smart Kiosk" Height="1080" Width="1920"
+        WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
-        mc:Ignorable="d" WindowStyle="None"
-        Title="MainWindow" Height="450" Width="800" Background="{x:Null}">
+        Background="{Binding ThemeViewModel.ThemeConfig.BackgroundBrush}">
+
+    <Window.Resources>
+        <Style x:Key="HeaderFooterBorderStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="24"/>
+            <Setter Property="Padding" Value="24"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TimeBorderStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="24,12"/>
+        </Style>
+        <Style x:Key="TimeTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <ContentControl x:Name="Page" Content="{Binding CurrentViewModel}"/>
-        <ContentControl x:Name="Popup" Content="{Binding PopViewModel}" d:IsHidden ="True"/>
+        <Canvas>
+            <Ellipse x:Name="Orb1" Width="512" Height="512" Canvas.Left="80" Canvas.Top="80"
+                     Fill="{Binding ThemeViewModel.ThemeConfig.Orb1Brush}">
+                <Ellipse.Effect>
+                    <BlurEffect Radius="64"/>
+                </Ellipse.Effect>
+                <Ellipse.RenderTransform>
+                    <ScaleTransform/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="Orb2" Width="576" Height="576" Canvas.Right="80" Canvas.Bottom="80"
+                     Fill="{Binding ThemeViewModel.ThemeConfig.Orb2Brush}">
+                <Ellipse.Effect>
+                    <BlurEffect Radius="64"/>
+                </Ellipse.Effect>
+                <Ellipse.RenderTransform>
+                    <ScaleTransform/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </Canvas>
+
+        <Grid Margin="40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Margin="0,0,0,20"
+                    Background="{Binding ThemeViewModel.ThemeConfig.GlassBrush}"
+                    BorderBrush="{Binding ThemeViewModel.ThemeConfig.GlassBorderBrush}"
+                    Style="{StaticResource HeaderFooterBorderStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Button Style="{StaticResource GlassButtonStyle}" Width="64" Height="64" Margin="0,0,16,0"
+                                Command="{Binding CurrentViewModel.GoHomeCommand}"
+                                IsEnabled="{Binding CurrentViewModel.GoHomeCommand, Converter={StaticResource NullToBoolConverter}}">
+                            <TextBlock Text="🏠" FontSize="32"/>
+                        </Button>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Welcome to Smart Kiosk"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                                       FontSize="24" FontWeight="Medium"/>
+                            <TextBlock Text="스마트 키오스크에 오신 것을 환영합니다"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextSecondaryBrush}"
+                                       FontSize="14"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Command="{Binding ThemeViewModel.ToggleThemeCommand}" 
+                                Style="{StaticResource GlassButtonStyle}" Width="56" Height="56" Margin="0,0,16,0">
+                            <TextBlock FontSize="24">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="🌙"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ThemeViewModel.ThemeMode}" Value="Evening">
+                                                <Setter Property="Text" Value="☀️"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Button>
+                        <Border Background="{Binding ThemeViewModel.ThemeConfig.GlassBrush}"
+                                BorderBrush="{Binding ThemeViewModel.ThemeConfig.GlassBorderBrush}"
+                                Style="{StaticResource TimeBorderStyle}">
+                            <TextBlock Text="{Binding CurrentTime}"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                                       Style="{StaticResource TimeTextStyle}"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <ContentControl Grid.Row="1"
+                            Content="{Binding CurrentViewModel}" />
+
+            <Border Grid.Row="2" Margin="0,20,0,0"
+                    Background="{Binding ThemeViewModel.ThemeConfig.GlassBrush}"
+                    BorderBrush="{Binding ThemeViewModel.ThemeConfig.GlassBorderBrush}"
+                    Style="{StaticResource HeaderFooterBorderStyle}">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Style="{StaticResource GlassButtonStyle}"
+                            Padding="32,16" Margin="0,0,32,0">
+                        <StackPanel>
+                            <TextBlock Text="도움말"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                                       FontSize="16" FontWeight="Medium" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Help"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextSecondaryBrush}"
+                                       FontSize="12" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource GlassButtonStyle}"
+                            Padding="32,16">
+                        <StackPanel>
+                            <TextBlock Text="언어"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
+                                       FontSize="16" FontWeight="Medium" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Language"
+                                       Foreground="{Binding ThemeViewModel.ThemeConfig.TextSecondaryBrush}"
+                                       FontSize="12" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

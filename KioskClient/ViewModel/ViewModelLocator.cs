@@ -15,8 +15,7 @@ namespace KioskClient.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<TestViewModel>();
-            SimpleIoc.Default.Register<PopupViewModel>();
+            SimpleIoc.Default.Register<ThemeViewModel>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage(

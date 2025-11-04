@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace KioskClient.View
 {
     /// <summary>
-    /// Test.xaml에 대한 상호 작용 논리
+    /// WelcomeView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Test : UserControl
+    public partial class WelcomeView : UserControl
     {
-        public Test()
+        public WelcomeView()
         {
             InitializeComponent();
         }
