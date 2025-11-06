@@ -1,27 +1,22 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using KioskClient.Message;
+using System.Windows.Input;
 
 namespace KioskClient.ViewModel
 {
-    public class PopupViewModel:ViewModelBase
+    public partial class PopupViewModel : ViewModelBase
     {
-        public ICommand ClosePopupCommand { get; private set; }
-        
+        public ICommand ClosePopupCommand { get; }
+
         public PopupViewModel()
         {
-            ClosePopupCommand = new RelayCommand(ExcuteClosePopup);
+            ClosePopupCommand = new RelayCommand(ExecuteClosePopup);
         }
 
-        private void ExcuteClosePopup()
-        {
+        private void ExecuteClosePopup()
+        { 
             Messenger.Default.Send(new PopUpMessage(PopUpName.Close));
         }
     }

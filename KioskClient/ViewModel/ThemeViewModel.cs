@@ -1,58 +1,50 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command; // KioskClient-master가 사용하는 MvvmLight
+using GalaSoft.MvvmLight.Command;
 using KioskClient.Model;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
-/*
- * KioskClient-master에 추가 (Figma wpf/themeviewmodel.cs 기반)
- * * - Figma 예제의 테마 관리 로직입니다.
- * - INotifyPropertyChanged 대신 'ViewModelBase'를 상속받습니다.
- * - Figma 예제의 'RelayCommand' 대신 MvvmLight의 'RelayCommand'를 사용합니다.
- */
 namespace KioskClient.ViewModel
 {
-    public class ThemeViewModel : ViewModelBase // ViewModelBase 상속
+    public partial class ThemeViewModel : ViewModelBase
     {
-        private ThemeColorMode _themeMode = ThemeColorMode.Morning; //
+        public ICommand ToggleThemeCommand { get; }
+
+        private ThemeColorMode themeMode = ThemeColorMode.Morning;
+        private ThemeConfig? themeConfig;
+
+
+        public ThemeViewModel()
+        {
+            ToggleThemeCommand = new RelayCommand(ToggleTheme);
+            UpdateThemeConfig();
+        }
+
         public ThemeColorMode ThemeMode
         {
-            get => _themeMode;
+            get { return themeMode; }
             set
             {
-                // MvvmLight의 Set()을 사용하여 값 변경 및 자동 알림
-                if (Set(ref _themeMode, value)) //
+                if(Set(ref themeMode, value))
                 {
-                    UpdateThemeConfig(); //
+                    UpdateThemeConfig();
                 }
             }
         }
 
-        private ThemeConfig _themeConfig;
-        public ThemeConfig ThemeConfig
+        public ThemeConfig? ThemeConfig
         {
-            get => _themeConfig;
-            private set => Set(ref _themeConfig, value); //
-        }
-
-        public ICommand ToggleThemeCommand { get; }
-
-        public ThemeViewModel()
-        {
-            // MvvmLight의 RelayCommand 사용
-            ToggleThemeCommand = new RelayCommand(ToggleTheme); //
-            UpdateThemeConfig();
+            get { return themeConfig; }
+            private set { Set(ref themeConfig, value); }
         }
 
         private void ToggleTheme()
         {
-            ThemeMode = ThemeMode == ThemeColorMode.Morning ? ThemeColorMode.Evening : ThemeColorMode.Morning; //
+            ThemeMode = (ThemeMode == ThemeColorMode.Morning) ? 
+                ThemeColorMode.Evening : ThemeColorMode.Morning;
         }
 
-        /// <summary>
-        /// 테마 변경 시 Brush 객체들을 업데이트 (Figma 예제 로직)
-        /// </summary>
         private void UpdateThemeConfig()
         {
             if (ThemeMode == ThemeColorMode.Morning)

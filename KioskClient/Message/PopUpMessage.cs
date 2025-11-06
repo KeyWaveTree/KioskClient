@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KioskClient.Message
+﻿namespace KioskClient.Message
 {
 
     //View 폴더에 Popup 관련 창이 생길때 마다 enum에 추가 
