@@ -1,9 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using KioskClient.Data;
 using KioskClient.Message;
-using KioskClient.Model;
+using KioskClient.DTO;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -13,7 +12,7 @@ namespace KioskClient.ViewModel
     public partial class MenuViewModel : ViewModelBase
     {
       
-        public MenuCategory SelectedCategory { get; }
+        public MenuCategoryDTO SelectedCategory { get; }
 
         public ObservableCollection<MenuProductViewModel> Products { get; }
 
@@ -43,7 +42,7 @@ namespace KioskClient.ViewModel
             set { Set(ref totalPrice, value); }
         }
 
-        public MenuViewModel(MenuCategory category)
+        public MenuViewModel(MenuCategoryDTO category)
         {
             SelectedCategory = category;
 

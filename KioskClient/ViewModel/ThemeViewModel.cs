@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using KioskClient.Model;
+using KioskClient.Theme;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;

@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using KioskClient.Message;
-using KioskClient.Model;
+using KioskClient.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +67,7 @@ namespace KioskClient.ViewModel
 
                 case PageName.Menu:
                     //파라미터 카테고리를 전달하여 MenuViewModel 생성
-                    if (action.Param is MenuCategory category)
+                    if (action.Param is MenuCategoryDTO category)
                         CurrentViewModel = new MenuViewModel(category);
                     break;
                 

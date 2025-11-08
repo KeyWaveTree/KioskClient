@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using KioskClient.Model;
+using KioskClient.DTO;
 using System;
 using System.Xml;
 
@@ -7,7 +7,7 @@ namespace KioskClient.ViewModel
 {
     public partial class MenuProductViewModel : ViewModelBase
     {
-        public MenuProduct Product { get; }
+        public MenuProductDTO Product { get; }
         public bool IsInCart => Quantity > 0;
         public event EventHandler? QuantityChanged;
 
@@ -27,7 +27,7 @@ namespace KioskClient.ViewModel
         }
 
 
-        public MenuProductViewModel(MenuProduct product)
+        public MenuProductViewModel(MenuProductDTO product)
         {
             Product = product;
         }

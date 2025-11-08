@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace KioskClient.Model
+namespace KioskClient.Theme
 {
     public enum ThemeColorMode
     {

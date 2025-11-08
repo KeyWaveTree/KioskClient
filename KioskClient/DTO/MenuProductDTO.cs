@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KioskClient.Model
+namespace KioskClient.DTO
 {
     /// <summary>
     /// 개별 상품 데이터 정의
     /// </summary>
-    public class MenuProduct
+    public class MenuProductDTO
     {
         public string Id { get; set; }
         public string Name { get; set; }
