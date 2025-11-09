@@ -17,6 +17,7 @@ namespace KioskClient.Service
         public ApiService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
+            this.httpClient.BaseAddress = new Uri(BASEURL);
         }
         
         public async Task<List<MenuCategoryDTO>> GetCategoriesDTOAsync()
