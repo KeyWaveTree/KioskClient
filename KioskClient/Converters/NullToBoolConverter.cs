@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace KioskClient.Converters
@@ -17,7 +18,16 @@ namespace KioskClient.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // 값이 Null이 아니면 true (활성화), Null이면 false (비활성화)
-            return value != null;
+            bool isNotNUll = value != null;
+            if(targetType == typeof(Visibility))
+            {
+                bool shouldInvert = parameter?.ToString() != "False";
+                if (shouldInvert) return isNotNUll ? Visibility.Collapsed : Visibility.Visible;
+                else return isNotNUll ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+            return isNotNUll;
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -26,14 +26,16 @@ namespace KioskClient.ViewModel
         public RelayCommand<MenuCategoryDTO> SelectCategoryCommand { get; }
         public ICommand StartCommand { get; }
 
-        public WelcomeViewModel()
+
+        public WelcomeViewModel(bool isShowCategories = false)
         {
             apiService = ServiceLocator.Current.GetInstance<ApiService>();
-            ShowCategories = false;
+            ShowCategories = isShowCategories;
             StatusMessage = "서버에 연결중";
             Categories = new ObservableCollection<MenuCategoryDTO>();
             SelectCategoryCommand = new RelayCommand<MenuCategoryDTO>(ExecuteSelectCategory);
             StartCommand = new RelayCommand(ExecuteStart);
+ 
             LoadCategoriesWithRetryAsync();
 
         }
@@ -62,6 +64,7 @@ namespace KioskClient.ViewModel
             ShowCategories = true;
         }
 
+
         private async void LoadCategoriesWithRetryAsync()
         {
             bool success = false;
@@ -79,7 +82,7 @@ namespace KioskClient.ViewModel
                         foreach (var category in categoriesList) Categories.Add(category);
                     });
 
-                    StatusMessage = "연결 성공";
+                    StatusMessage = "화면을 터치하여 시작하세요";
                     success = true;
                 }
                 catch (HttpRequestException ex)

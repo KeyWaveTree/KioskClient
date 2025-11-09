@@ -8,6 +8,7 @@ namespace KioskClient.ViewModel
     public class ViewModelLocator
     {
 
+
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);

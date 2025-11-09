@@ -29,6 +29,8 @@ namespace KioskClient.ViewModel
         public ICommand AddToCartCommand { get; }
         public ICommand RemoveFromCartCommand { get; }
         public ICommand GoHomeCommand { get; }
+        public ICommand CloseComand { get; }
+
         public bool IsCartVisible => TotalItems > 0;
 
         public int TotalItems
@@ -64,8 +66,8 @@ namespace KioskClient.ViewModel
             // Commands
             AddToCartCommand = new RelayCommand<MenuProductViewModel>(p => p?.IncrementQuantity());
             RemoveFromCartCommand = new RelayCommand<MenuProductViewModel>(p => p?.DecrementQuantity());
-            GoHomeCommand = new RelayCommand(() =>
-                Messenger.Default.Send(new GoToPageMessage(PageName.Welcome)));
+            GoHomeCommand = new RelayCommand(() => Messenger.Default.Send(new GoToPageMessage(PageName.Welcome)));
+            CloseComand = new RelayCommand(() => Messenger.Default.Send(new GoToPageMessage(PageName.Choice)));
         }
 
         private async void LoadProductsAsync(string categoryId)

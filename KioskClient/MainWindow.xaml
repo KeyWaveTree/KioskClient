@@ -73,9 +73,9 @@
 
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <Button Style="{StaticResource GlassButtonStyle}" Width="64" Height="64" Margin="0,0,16,0"
-                                Command="{Binding CurrentViewModel.GoHomeCommand}"
-                                IsEnabled="{Binding CurrentViewModel.GoHomeCommand, Converter={StaticResource NullToBoolConverter}}">
-                            <TextBlock Text="🏠" FontSize="32"/>
+                                Command="{Binding GoHomeCommand}">
+
+                            <TextBlock Text="🏠" FontSize="16"/>
                         </Button>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Text="Welcome to Smart Kiosk"
@@ -90,7 +90,7 @@
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Command="{Binding ThemeViewModel.ToggleThemeCommand}" 
                                 Style="{StaticResource GlassButtonStyle}" Width="56" Height="56" Margin="0,0,16,0">
-                            <TextBlock FontSize="24">
+                            <TextBlock FontSize="12">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Text" Value="🌙"/>

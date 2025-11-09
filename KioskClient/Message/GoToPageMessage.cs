@@ -12,6 +12,7 @@ namespace KioskClient.Message
     public enum PageName
     {
         Welcome,
+        Choice,
         Menu,
     }
 

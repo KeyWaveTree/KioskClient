@@ -31,10 +31,10 @@
                        Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"
                        Style="{StaticResource ViewTitleStyle}"/>
             <Button Grid.Column="1"
-                    Command="{Binding GoHomeCommand}"
+                    Command="{Binding CloseComand}"
                     Style="{StaticResource GlassButtonStyle}"
                     Width="56" Height="56">
-                <TextBlock Text="✕" FontSize="24"
+                <TextBlock Text="✕" FontSize="12"
                            Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}"/>
             </Button>
         </Grid>

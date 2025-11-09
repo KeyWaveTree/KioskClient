@@ -8,19 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
 
 namespace KioskClient.ViewModel
 {
     public partial class MainViewModel : ViewModelBase
     {
-        public ThemeViewModel ThemeViewModel { get; } //테마 viewModel
         private ViewModelBase? currentViewModel;
         private ViewModelBase? popViewModel;
         private string? currentTime;
-
+        public ThemeViewModel ThemeViewModel { get; } //테마 viewModel
+        public ICommand GoHomeCommand { get; }
+        public ICommand CloseMenuCommand { get; }
         public MainViewModel()
         {
             ThemeViewModel = new ThemeViewModel();
+
+            GoHomeCommand = new RelayCommand(ExecuteGoHome);
+            CloseMenuCommand = new RelayCommand(ExecuteCloseMenu);
 
             // 메시지 수신 등록
             // Messenger는 Unregister를 통해 메모리를 비우지 않으면 메모리 누수가 나는 문제점이 있다고 함.
@@ -56,15 +62,27 @@ namespace KioskClient.ViewModel
             set { Set(ref currentTime, value); }
         }
 
+        private void ExecuteGoHome()
+        {
+            CurrentViewModel = new WelcomeViewModel();
+        }
+
+        private void ExecuteCloseMenu()
+        {
+            CurrentViewModel = new WelcomeViewModel(true);
+        }
+
         private object? ReceiveMessage(GoToPageMessage action)
         {
             switch (action.PageName)
             {
                 //추가적인 페이지가 나올 시 case 추가하는 것 같음.
                 case PageName.Welcome:
-                    currentViewModel = new WelcomeViewModel();
+                    CurrentViewModel = new WelcomeViewModel();
                     break;
-
+                case PageName.Choice:
+                    CurrentViewModel = new WelcomeViewModel(true);
+                    break;
                 case PageName.Menu:
                     //파라미터 카테고리를 전달하여 MenuViewModel 생성
                     if (action.Param is MenuCategoryDTO category)
