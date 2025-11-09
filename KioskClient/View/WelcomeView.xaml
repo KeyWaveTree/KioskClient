@@ -10,27 +10,42 @@
              d:DataContext="{d:DesignInstance Type=vm:WelcomeViewModel, IsDesignTimeCreatable=False}">
 
     <UserControl.Resources>
-    </UserControl.Resources>
+        </UserControl.Resources>
 
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Border Background="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.GlassBrush}"
-                    BorderBrush="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.GlassBorderBrush}"
-                    BorderThickness="1" CornerRadius="24" Padding="48" Margin="0,0,0,40">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.3"/>
-                </Border.Effect>
+
+            <Button Style="{StaticResource GlassButtonStyle}"
+                    Padding="48" Margin="0,0,0,40"
+                    Command="{Binding StartCommand}"
+                    Visibility="{Binding ShowCategories, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Inverted}">
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.GlassBrush}"
+                                BorderBrush="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.GlassBorderBrush}"
+                                BorderThickness="1" CornerRadius="24"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+
                 <StackPanel>
-                    <TextBlock Text="화면을 터치하여 시작하세요" 
-                               Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}" 
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextPrimaryBrush}" 
                                FontSize="32" FontWeight="Medium" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+
                     <TextBlock Text="Touch the screen to get started" 
                                Foreground="{Binding Source={StaticResource Locator}, Path=Main.ThemeViewModel.ThemeConfig.TextSecondaryBrush}" 
                                FontSize="18" HorizontalAlignment="Center"/>
                 </StackPanel>
-            </Border>
+            </Button>
 
-            <ItemsControl ItemsSource="{Binding Categories}" MaxWidth="900">
+            <ItemsControl ItemsSource="{Binding Categories}" MaxWidth="900"
+                          Visibility="{Binding ShowCategories, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="2" Columns="2"/>
