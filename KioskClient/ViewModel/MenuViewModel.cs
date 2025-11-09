@@ -51,7 +51,7 @@ namespace KioskClient.ViewModel
 
         public MenuViewModel(MenuCategoryDTO category)
         {
-            apiService = (ApiService?)ServiceLocator.Current.GetAllInstances<ApiService>();
+            apiService = ServiceLocator.Current.GetInstance<ApiService>();
 
             SelectedCategory = category;
 

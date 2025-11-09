@@ -19,7 +19,7 @@ namespace KioskClient.ViewModel
     {
         private readonly ApiService apiService;
         private bool showCategories;
-        private string statusMessage;
+        private string statusMessage = "서버에 연결중";
 
         //비동기 로드 후 ui 갱신을 위해 ObservableCollection 사용
         public ObservableCollection<MenuCategoryDTO> Categories { get; }
@@ -29,8 +29,8 @@ namespace KioskClient.ViewModel
         public WelcomeViewModel()
         {
             apiService = ServiceLocator.Current.GetInstance<ApiService>();
-            showCategories = false;
-            statusMessage = "서버에 연결중";
+            ShowCategories = false;
+            StatusMessage = "서버에 연결중";
             Categories = new ObservableCollection<MenuCategoryDTO>();
             SelectCategoryCommand = new RelayCommand<MenuCategoryDTO>(ExecuteSelectCategory);
             StartCommand = new RelayCommand(ExecuteStart);

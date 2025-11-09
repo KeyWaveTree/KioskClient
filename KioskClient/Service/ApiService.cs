@@ -20,12 +20,12 @@ namespace KioskClient.Service
             this.httpClient.BaseAddress = new Uri(BASEURL);
         }
         
-        public async Task<List<MenuCategoryDTO>?> GetCategoriesDTOAsync()
+        public async Task<List<MenuCategoryDTO>> GetCategoriesDTOAsync()
         {
-            return await httpClient.GetFromJsonAsync<List<MenuCategoryDTO>>("api/siosk/categories");
+            return await httpClient.GetFromJsonAsync<List<MenuCategoryDTO>>("api/kiosk/categories");
         }
 
-        public async Task<List<MenuProductDTO>?> GetProductsDTOAsync(string categoryId)
+        public async Task<List<MenuProductDTO>> GetProductsDTOAsync(string categoryId)
         {
             return await httpClient.GetFromJsonAsync<List<MenuProductDTO>>($"api/kiosk/products?categoryId={categoryId}");
         }

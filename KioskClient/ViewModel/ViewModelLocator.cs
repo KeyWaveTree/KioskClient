@@ -7,7 +7,6 @@ namespace KioskClient.ViewModel
 {
     public class ViewModelLocator
     {
-        private static MainViewModel? main;
 
         public ViewModelLocator()
         {
